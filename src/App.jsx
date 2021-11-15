@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import Tasks from "./components/Tasks";
 import "./App.css";
 import AddTask from "./components/AddTask";
@@ -17,10 +19,23 @@ const App = () => {
     },
   ]);
 
+  const handleAddTask = (title) => {
+    const newTask = [
+      ...tasks,
+      {
+        title: title,
+        id: uuidv4(),
+        completed: false,
+      },
+    ];
+
+    setTasks(newTask);
+  };
+
   return (
     <>
       <div className="container">
-        <AddTask />
+        <AddTask handleAddTask={handleAddTask} />
         <Tasks tasks={tasks} />
       </div>
     </>
