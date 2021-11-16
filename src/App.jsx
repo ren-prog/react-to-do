@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Tasks from "./components/Tasks";
-import "./App.css";
 import AddTask from "./components/AddTask";
 import Header from "./components/Header";
+import TaskDetails from "./components/TaskDetails";
+
+import "./App.css";
 
 const App = () => {
   const [tasks, setTasks] = useState([
@@ -48,13 +51,22 @@ const App = () => {
   };
 
   return (
-    <>
+    <Router>
       <div className="container">
         <Header />
-        <AddTask handleAddTask={handleAddTask} />
-        <Tasks tasks={tasks} handleTaskClick={handleTaskClick} handleDeleteTask={handleDeleteTask} />
+        <Route
+          path="/"
+          exact
+          render={() => (
+            <>
+              <AddTask handleAddTask={handleAddTask} />
+              <Tasks tasks={tasks} handleTaskClick={handleTaskClick} handleDeleteTask={handleDeleteTask} />
+            </>
+          )}
+        />
+        <Route path="/details/:title" exact component={TaskDetails} />
       </div>
-    </>
+    </Router>
   );
 };
 export default App;
